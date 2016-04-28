@@ -1,0 +1,90 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   testread.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cducaffy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/07/19 17:12:22 by cducaffy          #+#    #+#             */
+/*   Updated: 2014/07/19 19:36:43 by cducaffy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+
+#define BUF_SIZE 4096
+
+int		ft_compare(char *buf, int i, int j)
+{
+	if (i == 0 || j == 0)
+		return (5);
+	if (i == 1 && j == 1)
+		return (6);
+	if (i == 1)
+		return (7);
+	if (j == 1)
+		return (8);
+	if (buf[0] == 'o')
+		return (0);
+	if (buf[0] == '/')
+		return (1);
+	if (buf[0] == 'A')
+		if (buf[i] == 'A')
+			return (2);
+		else 
+		{
+			if (buf[j - 1] == 'C')
+				return (3);		
+			else
+				return (4);
+		}
+}
+
+int definei(char *buf)
+{
+	int i;
+
+	i = 0;
+	while (buf[i] != '\n')
+		i++;
+	return (i);
+}
+
+int definej(char *buf)
+{
+	int j;
+	int count;
+
+	count = 0;
+	j = 0;
+	while(buf[j] != '\0')
+	{
+		if (buf[j] == '\n')
+			count++;
+			j++;
+	}
+	return (count);
+}
+
+int		main(void)
+{
+	int ret;
+	char buf[BUF_SIZE + 1];
+	int i;
+	int j;
+	int colle;
+
+	ret = read(0, buf, BUF_SIZE);
+	buf[ret] = '\0';
+	i = definei(buf);
+	j = definej(buf);
+	colle = ft_compare(buf, i, j);
+	printf("%d\n", i);
+	printf("%d\n", j);
+	printf("%d\n", colle);
+	return (0);
+}
